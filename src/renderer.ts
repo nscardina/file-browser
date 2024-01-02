@@ -29,3 +29,11 @@
 import './index.css';
 
 console.log('👋 This message is being logged by "renderer.ts", included via Vite');
+
+window.onload = function() {
+    const btn = document.getElementById("test_button")
+    btn.addEventListener("click", async() => {
+        const test = await (window as any).electronAPI.getDetailsAboutFilesIn("/")
+        console.log(test)
+    })
+}

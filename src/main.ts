@@ -1,12 +1,49 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from 'electron';
 import path from 'path';
+import fs from "node:fs"
+import { getGroupOwner, getFileOwner, getFileTypeName, getFilePermissions, FileSystemObjectDetails } from './ipc/FileSystemObjectDetails';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+function getDetailsAboutFilesIn(event: IpcMainInvokeEvent, fPath: string): FileSystemObjectDetails[] {
+  const fileSystemObjects: any[] = []
+
+  fs.readdirSync(fPath).forEach(filePath => {
+    const stat = fs.statSync(path.resolve(fPath, filePath))
+    
+    const fileSystemObjectDetails = {
+      name: path.basename(filePath),
+      size: stat.size,
+      type: stat.isBlockDevice() ? "Block Device" :
+            stat.isCharacterDevice() ? "Character Device" :
+            stat.isDirectory() ? "Directory" :
+            stat.isFIFO() ? "FIFO special file" :
+            stat.isFile() ? getFileTypeName(path.extname(filePath).substring(1)) : 
+            stat.isSocket() ? "Socket" : 
+            stat.isSymbolicLink() ? "Symbolic Link" : 
+            "Unknown",
+      owner: getFileOwner(path.resolve(fPath, filePath)),
+      group: getGroupOwner(path.resolve(fPath, filePath)),
+      permissions: getFilePermissions(path.resolve(fPath, filePath)),
+      location: path.resolve(fPath, filePath),
+      modified: stat.mtimeMs,
+      accessed: stat.atimeMs,
+      created: stat.ctimeMs,
+    }
+
+    fileSystemObjects.push(fileSystemObjectDetails)
+  })
+
+  return fileSystemObjects
+}
+
 const createWindow = () => {
+
+  ipcMain.handle("fs:getDetailsAboutFilesIn", getDetailsAboutFilesIn)
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
