@@ -92,10 +92,15 @@ async function updateFileDisplayContents() {
         
 
         if (details.type === "Directory") {
-            // li.innerHTML = `<span class="material-icons">folder</span>`
             li.innerHTML = `<object data="/src/static/folder.svg"></object>`
+            li.addEventListener("dblclick", (event) => {
+                event.preventDefault()
+                event.stopImmediatePropagation()
+                electronAPI().setCurrentlySelectedFolder(details.location)
+                updateFileDisplayContents()
+            })
+
         } else {
-            // li.innerHTML = `<span class="material-icons">description</span>`
             li.innerHTML = `<object data="/src/static/generic_file.svg"></object>`
         }
 
