@@ -33,9 +33,13 @@ import { getSeparator } from './ipc/MainProcessOperations';
 
 export type ElectronAPIType = {
     getDetailsAboutFilesIn: (path: string) => Promise<FileSystemObjectDetails[]>,
+    getCurrentlySelectedFolder: () => Promise<string>,
+    setCurrentlySelectedFolder: (path: string) => void,
+
     addFavoriteFolder: (path: string) => void,
     removeFavoriteFolder: (path: string) => void,
     getFavoriteFolders: () => Promise<string[]>,
+
     getSeparator: () => Promise<string>,
 }
 
@@ -47,6 +51,7 @@ export function electronAPI(): ElectronAPIType {
 window.onload = async function() {
 
     updateFavoriteFolders()
+    updateFileDisplayContents()
 }
 
 async function updateFavoriteFolders() {
@@ -68,4 +73,20 @@ async function updateFavoriteFolders() {
     }))
 
     favoriteFoldersContainer.replaceChildren(...newChildren)
+}
+
+async function updateFileDisplayContents() {
+    const fileDisplayContainer: HTMLUListElement = document.querySelector("#file-display")
+
+    const currentlySelectedFolderPath = await electronAPI().getCurrentlySelectedFolder()
+    const info = await electronAPI().getDetailsAboutFilesIn(currentlySelectedFolderPath)
+
+    const children = info.map(details => {
+        const li = document.createElement("li")
+        li.classList.add("file-display-list-item")
+        li.innerHTML = `<span class="material-icons">description</span>${details.name}`
+        return li
+    })
+
+    fileDisplayContainer.replaceChildren(...children)
 }

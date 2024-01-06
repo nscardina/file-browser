@@ -10,6 +10,7 @@ type StoreDataType = {
 }
 
 let _store: Store<StoreDataType> | null = null
+let _currentlySelectedFolder: string | null = null
 
 function initializeStore() {
     _store = new Store<StoreDataType>()
@@ -28,6 +29,7 @@ function initializeStore() {
       _store.set("initialLoadFolder", os.homedir())
     }
     
+    _currentlySelectedFolder = _store.get("initialLoadFolder")
     storeInitialized = true
     return _store
 }
@@ -38,4 +40,12 @@ export default function store(): Store<StoreDataType> {
     } else {
         return initializeStore()
     }
+}
+
+export function getCurrentlySelectedFolderPath(): string {
+  return _currentlySelectedFolder;
+}
+
+export function setCurrentlySelectedFolderPath(path: string): void {
+  _currentlySelectedFolder = path
 }

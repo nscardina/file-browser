@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "path";
 import { getFileTypeName, getFileOwner, getGroupOwner, getFilePermissions } from './FileSystemObjectDetails';
 import { FileSystemObjectDetails } from "./FileSystemObjectDetailsType";
-import store from "../store.js";
+import store, { getCurrentlySelectedFolderPath, setCurrentlySelectedFolderPath } from "../store.js";
 
 
 export function getDetailsAboutFilesIn(_: IpcMainInvokeEvent, fPath: string): FileSystemObjectDetails[] {
@@ -36,6 +36,14 @@ export function getDetailsAboutFilesIn(_: IpcMainInvokeEvent, fPath: string): Fi
   });
 
   return fileSystemObjects;
+}
+
+export function getCurrentlySelectedFolder(_: IpcMainInvokeEvent): string {
+  return getCurrentlySelectedFolderPath();
+} 
+
+export function setCurrentlySelectedFolder(_: IpcMainInvokeEvent, path: string): void {
+  setCurrentlySelectedFolderPath(path);
 }
 
 export function addFavoriteFolder(_: IpcMainInvokeEvent, fPath: string): void {

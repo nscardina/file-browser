@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
-import { addFavoriteFolder, getDetailsAboutFilesIn, getFavoriteFolders, getSeparator, removeFavoriteFolder } from './ipc/MainProcessOperations';
+import { addFavoriteFolder, getCurrentlySelectedFolder, getDetailsAboutFilesIn, getFavoriteFolders, getSeparator, removeFavoriteFolder } from './ipc/MainProcessOperations';
 
 
 
@@ -12,6 +12,7 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
 
   ipcMain.handle("fs:getDetailsAboutFilesIn", getDetailsAboutFilesIn)
+  ipcMain.handle("app:getCurrentlySelectedFolder", getCurrentlySelectedFolder)
   ipcMain.handle("app:addFavoriteFolder", addFavoriteFolder)
   ipcMain.handle("app:removeFavoriteFolder", removeFavoriteFolder)
   ipcMain.handle("app:getFavoriteFolders", getFavoriteFolders)
