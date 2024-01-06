@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
 
+    <link href="/node_modules/material-icons/iconfont/material-icons.css" rel="stylesheet">
+
     <title>Hello World!</title>
 
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-    <button id="test_button"></button>
+    <ul id="favorites-bar"></ul>
+    <ul id="file-display"></ul>
     <script type="module" src="/src/renderer.ts"></script>
   </body>
 </html>

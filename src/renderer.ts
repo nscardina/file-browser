@@ -27,13 +27,45 @@
  */
 
 import './index.css';
+import { FileSystemObjectDetails } from './ipc/FileSystemObjectDetailsType';
+import { getSeparator } from './ipc/MainProcessOperations';
 
-console.log('👋 This message is being logged by "renderer.ts", included via Vite');
 
-window.onload = function() {
-    const btn = document.getElementById("test_button")
-    btn.addEventListener("click", async() => {
-        const test = await (window as any).electronAPI.getDetailsAboutFilesIn("/")
-        console.log(test)
-    })
+export type ElectronAPIType = {
+    getDetailsAboutFilesIn: (path: string) => Promise<FileSystemObjectDetails[]>,
+    addFavoriteFolder: (path: string) => void,
+    removeFavoriteFolder: (path: string) => void,
+    getFavoriteFolders: () => Promise<string[]>,
+    getSeparator: () => Promise<string>,
+}
+
+export function electronAPI(): ElectronAPIType {
+    return (window as any).electronAPI
+}
+
+
+window.onload = async function() {
+
+    updateFavoriteFolders()
+}
+
+async function updateFavoriteFolders() {
+    const favoriteFoldersContainer: HTMLUListElement = document.querySelector("#favorites-bar")
+
+    const newChildren = await Promise.all((await electronAPI().getFavoriteFolders()).map(async(favoriteFolderPath) => {
+        const li = document.createElement("li")
+        li.classList.add("favorites-folder-list-item")
+
+        const separator = await electronAPI().getSeparator()
+        if (favoriteFolderPath.indexOf(separator) !== -1) {
+            li.innerHTML = `<span class="material-icons">folder</span>`
+            li.innerHTML += favoriteFolderPath.substring(favoriteFolderPath.lastIndexOf(separator) + 1)
+        } else {
+            li.textContent = favoriteFolderPath
+        }
+
+        return li
+    }))
+
+    favoriteFoldersContainer.replaceChildren(...newChildren)
 }

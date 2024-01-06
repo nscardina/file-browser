@@ -2,25 +2,7 @@ import os from "node:os"
 import fs from "node:fs"
 import { execSync } from "node:child_process"
 import { accessSync, constants } from "node:fs"
-
-export type FileSystemObjectDetails = {
-    name: string,
-    size: number,
-    type: string,
-    owner: string,
-    group: string,
-    permissions: FilePermissions,
-    location: string,
-    dateModified: number // Get this from date.getTime(), use date.setTime() to get the date object back
-    dateAccessed: number // see above
-    dateCreated: number // see above
-}
-
-export type FilePermissions = {
-    read: boolean;
-    write: boolean;
-    execute: boolean;
-}
+import { FilePermissions } from "./FileSystemObjectDetailsType"
 
 export function getFileTypeName(extension: string): string {
     return `${extension.trim() === "" ? "" : `${extension.toUpperCase()} `}File`
