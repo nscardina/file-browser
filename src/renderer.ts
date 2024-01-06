@@ -61,6 +61,11 @@ async function updateFavoriteFolders() {
         const li = document.createElement("li")
         li.classList.add("favorites-folder-list-item")
 
+        li.addEventListener("click", ev => {
+            electronAPI().setCurrentlySelectedFolder(favoriteFolderPath)
+            updateFileDisplayContents()
+        })
+
         const separator = await electronAPI().getSeparator()
         if (favoriteFolderPath.indexOf(separator) !== -1) {
             li.innerHTML = `<span class="material-icons">folder</span>`

@@ -5,7 +5,7 @@ body {
   padding: 0px;
 
   width: 100vw;
-  height: 100vh;
+  height: max(max-content, 100vh);
   
   display: flex;
   flex-direction: row;
@@ -14,7 +14,7 @@ body {
 #favorites-bar {
   width: 200px;
   background-color: lightgray;
-  height: 100vh;
+  flex: auto;
   margin: 0px;
   padding: 0px;
 }

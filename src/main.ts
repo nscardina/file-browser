@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
-import { addFavoriteFolder, getCurrentlySelectedFolder, getDetailsAboutFilesIn, getFavoriteFolders, getSeparator, removeFavoriteFolder } from './ipc/MainProcessOperations';
+import { addFavoriteFolder, getCurrentlySelectedFolder, getDetailsAboutFilesIn, getFavoriteFolders, getSeparator, removeFavoriteFolder, setCurrentlySelectedFolder } from './ipc/MainProcessOperations';
 
 
 
@@ -13,6 +13,7 @@ const createWindow = () => {
 
   ipcMain.handle("fs:getDetailsAboutFilesIn", getDetailsAboutFilesIn)
   ipcMain.handle("app:getCurrentlySelectedFolder", getCurrentlySelectedFolder)
+  ipcMain.handle("app:setCurrentlySelectedFolder", setCurrentlySelectedFolder)
   ipcMain.handle("app:addFavoriteFolder", addFavoriteFolder)
   ipcMain.handle("app:removeFavoriteFolder", removeFavoriteFolder)
   ipcMain.handle("app:getFavoriteFolders", getFavoriteFolders)

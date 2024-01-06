@@ -25,7 +25,7 @@ export function getFileOwner(path: string): string {
 
 export function getGroupOwner(path: string): string {
     if (os.platform() === "darwin" || os.platform() === "linux") {
-        const commandOutput = execSync(`stat -c "%G" ${path}`).toString()
+        const commandOutput = execSync(`stat -c "%G" "${path}"`).toString()
         return commandOutput
     }
     else if (os.platform() === "win32") {
