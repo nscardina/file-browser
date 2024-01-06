@@ -17,4 +17,3 @@ export type FilePermissions = {
     write: boolean
     execute: boolean
 }
-

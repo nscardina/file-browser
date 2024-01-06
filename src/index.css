@@ -34,3 +34,28 @@ body {
 ul {
   list-style-type: none;
 }
+
+object[data$=".svg"] {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+object[data$="folder.svg"] {
+  filter: hue-rotate(200deg) brightness(200%);
+}
+
+object[data$="generic_file.svg"] {
+  filter: grayscale(100%) brightness(400%);
+}
+
+li:first-child > object[data$=".svg"] {
+  margin-top: 0.5rem;
+}
+
+li:last-child > object[data$=".svg"] {
+  margin-bottom: 0.5rem;
+}

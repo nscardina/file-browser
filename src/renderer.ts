@@ -68,7 +68,7 @@ async function updateFavoriteFolders() {
 
         const separator = await electronAPI().getSeparator()
         if (favoriteFolderPath.indexOf(separator) !== -1) {
-            li.innerHTML = `<span class="material-icons">folder</span>`
+            li.innerHTML = `<object data="/src/static/folder.svg"></object>`
             li.innerHTML += favoriteFolderPath.substring(favoriteFolderPath.lastIndexOf(separator) + 1)
         } else {
             li.textContent = favoriteFolderPath
@@ -89,7 +89,18 @@ async function updateFileDisplayContents() {
     const children = info.map(details => {
         const li = document.createElement("li")
         li.classList.add("file-display-list-item")
-        li.innerHTML = `<span class="material-icons">description</span>${details.name}`
+        
+
+        if (details.type === "Directory") {
+            // li.innerHTML = `<span class="material-icons">folder</span>`
+            li.innerHTML = `<object data="/src/static/folder.svg"></object>`
+        } else {
+            // li.innerHTML = `<span class="material-icons">description</span>`
+            li.innerHTML = `<object data="/src/static/generic_file.svg"></object>`
+        }
+
+        li.innerHTML += details.name
+
         return li
     })
 
