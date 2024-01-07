@@ -58,11 +58,17 @@ window.onload = async function () {
     backButton.addEventListener("click", event => {
         if (historyStack.canGoBack()) {
             const folderPath = historyStack.back()
-            console.log(folderPath)
             electronAPI().setCurrentlySelectedFolder(folderPath)
             updateFileDisplayContents()
-        } else {
-            console.log("can't go back")
+        }
+    })
+
+    const forwardButton: HTMLButtonElement = document.querySelector("#forward-button")
+    forwardButton.addEventListener("click", event => {
+        if (historyStack.canGoForward()) {
+            const folderPath = historyStack.forward()
+            electronAPI().setCurrentlySelectedFolder(folderPath)
+            updateFileDisplayContents()
         }
     })
 
@@ -102,7 +108,6 @@ async function updateFileDisplayContents() {
     const fileDisplayContainer: HTMLUListElement = document.querySelector("#file-display")
 
     const currentlySelectedFolderPath = await electronAPI().getCurrentlySelectedFolder()
-    console.log(currentlySelectedFolderPath)
     const info = await electronAPI().getDetailsAboutFilesIn(currentlySelectedFolderPath)
 
     const children = info.map(details => {

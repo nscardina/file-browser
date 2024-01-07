@@ -11,6 +11,16 @@ body {
   flex-direction: column;
 }
 
+#header {
+  padding: 0.5rem;
+}
+
+#back-button, #forward-button {
+  background: none;
+  border: 0.1rem solid black;
+  border-radius: 0.2rem;
+}
+
 #file-display-container {
   display: flex;
   flex-direction: row;
@@ -36,6 +46,10 @@ body {
   flex-direction: row;
   align-items: center;
   user-select: none;
+}
+
+.file-display-list-item:nth-child(odd) {
+  background-color: rgb(240, 240, 240);
 }
 
 ul {
