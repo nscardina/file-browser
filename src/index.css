@@ -5,10 +5,16 @@ body {
   padding: 0px;
 
   width: 100vw;
-  height: max(max-content, 100vh);
-  
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#file-display-container {
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
 }
 
 #favorites-bar {

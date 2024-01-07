@@ -26,9 +26,9 @@
  * ```
  */
 
+import historyStack from './history';
 import './index.css';
 import { FileSystemObjectDetails } from './ipc/FileSystemObjectDetailsType';
-import { getSeparator } from './ipc/MainProcessOperations';
 
 
 export type ElectronAPIType = {
@@ -41,6 +41,7 @@ export type ElectronAPIType = {
     getFavoriteFolders: () => Promise<string[]>,
 
     getSeparator: () => Promise<string>,
+    isInitialized: () => Promise<boolean>,
 }
 
 export function electronAPI(): ElectronAPIType {
@@ -48,20 +49,37 @@ export function electronAPI(): ElectronAPIType {
 }
 
 
-window.onload = async function() {
+
+window.onload = async function () {
+
+    await historyStack.pushFolder(await electronAPI().getCurrentlySelectedFolder())
+
+    const backButton: HTMLButtonElement = document.querySelector("#back-button")
+    backButton.addEventListener("click", event => {
+        if (historyStack.canGoBack()) {
+            const folderPath = historyStack.back()
+            console.log(folderPath)
+            electronAPI().setCurrentlySelectedFolder(folderPath)
+            updateFileDisplayContents()
+        } else {
+            console.log("can't go back")
+        }
+    })
 
     updateFavoriteFolders()
     updateFileDisplayContents()
 }
 
+
 async function updateFavoriteFolders() {
     const favoriteFoldersContainer: HTMLUListElement = document.querySelector("#favorites-bar")
 
-    const newChildren = await Promise.all((await electronAPI().getFavoriteFolders()).map(async(favoriteFolderPath) => {
+    const newChildren = await Promise.all((await electronAPI().getFavoriteFolders()).map(async (favoriteFolderPath) => {
         const li = document.createElement("li")
         li.classList.add("favorites-folder-list-item")
 
         li.addEventListener("click", ev => {
+            historyStack.pushFolder(favoriteFolderPath)
             electronAPI().setCurrentlySelectedFolder(favoriteFolderPath)
             updateFileDisplayContents()
         })
@@ -84,18 +102,20 @@ async function updateFileDisplayContents() {
     const fileDisplayContainer: HTMLUListElement = document.querySelector("#file-display")
 
     const currentlySelectedFolderPath = await electronAPI().getCurrentlySelectedFolder()
+    console.log(currentlySelectedFolderPath)
     const info = await electronAPI().getDetailsAboutFilesIn(currentlySelectedFolderPath)
 
     const children = info.map(details => {
         const li = document.createElement("li")
         li.classList.add("file-display-list-item")
-        
+
 
         if (details.type === "Directory") {
             li.innerHTML = `<object data="/src/static/folder.svg"></object>`
             li.addEventListener("dblclick", (event) => {
                 event.preventDefault()
                 event.stopImmediatePropagation()
+                historyStack.pushFolder(details.location)
                 electronAPI().setCurrentlySelectedFolder(details.location)
                 updateFileDisplayContents()
             })

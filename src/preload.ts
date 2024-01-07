@@ -13,5 +13,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     removeFavoriteFolder: (path: string) => ipcRenderer.invoke("app:removeFavoriteFolder", path),
     getFavoriteFolders: () => ipcRenderer.invoke("app:getFavoriteFolders"),
     
-    getSeparator: () => ipcRenderer.invoke("fs:getSeparator")
+    getSeparator: () => ipcRenderer.invoke("fs:getSeparator"),
+
+    isInitialized: () => ipcRenderer.invoke("app:isInitialized"),
 })
+

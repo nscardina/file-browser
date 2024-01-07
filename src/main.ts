@@ -1,23 +1,25 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
-import { addFavoriteFolder, getCurrentlySelectedFolder, getDetailsAboutFilesIn, getFavoriteFolders, getSeparator, removeFavoriteFolder, setCurrentlySelectedFolder } from './ipc/MainProcessOperations';
-
-
+import { AppIPC } from "./main_thread/AppIPCOperations";
+import { FilesystemIPC } from "./main_thread/FilesystemIPCOperations";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+let isInitialized = false
+
 const createWindow = () => {
 
-  ipcMain.handle("fs:getDetailsAboutFilesIn", getDetailsAboutFilesIn)
-  ipcMain.handle("app:getCurrentlySelectedFolder", getCurrentlySelectedFolder)
-  ipcMain.handle("app:setCurrentlySelectedFolder", setCurrentlySelectedFolder)
-  ipcMain.handle("app:addFavoriteFolder", addFavoriteFolder)
-  ipcMain.handle("app:removeFavoriteFolder", removeFavoriteFolder)
-  ipcMain.handle("app:getFavoriteFolders", getFavoriteFolders)
-  ipcMain.handle("fs:getSeparator", getSeparator)
+  ipcMain.handle("fs:getDetailsAboutFilesIn", FilesystemIPC.getDetailsAboutFilesIn)
+  ipcMain.handle("fs:getSeparator", FilesystemIPC.getSeparator)
+  ipcMain.handle("app:getCurrentlySelectedFolder", AppIPC.getCurrentlySelectedFolder)
+  ipcMain.handle("app:setCurrentlySelectedFolder", AppIPC.setCurrentlySelectedFolder)
+  ipcMain.handle("app:addFavoriteFolder", AppIPC.addFavoriteFolder)
+  ipcMain.handle("app:removeFavoriteFolder", AppIPC.removeFavoriteFolder)
+  ipcMain.handle("app:getFavoriteFolders", AppIPC.getFavoriteFolders)
+  
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -37,6 +39,9 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  isInitialized = true
+  ipcMain.handle("app:isInitialized", () => isInitialized)
 };
 
 // This method will be called when Electron has finished
