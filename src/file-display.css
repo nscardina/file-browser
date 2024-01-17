@@ -1,0 +1,101 @@
+#file-display {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+}
+
+.file-display-list-header {
+    * {
+        font-weight: bold;
+    }
+}
+
+
+#file-display > .file-display-list-item {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.favorites-folder-list-item, .file-display-list-item {
+
+    display: flex;
+    min-width: 0;
+    padding: 0.25rem;
+
+    > object, > span, > p {
+        display: inline;
+        vertical-align: middle;
+    }
+
+    > p {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+}
+  
+.file-display-list-item:nth-child(odd) {
+background-color: rgb(240, 240, 240);
+}
+
+.file-display-name,
+.file-display-size,
+.file-display-type,
+.file-display-owner,
+.file-display-group,
+.file-display-permissions,
+.file-display-location,
+.file-display-modified,
+.file-display-accessed,
+.file-display-created {
+    display: inline-flex;
+    margin: 0px;
+    width: 100px;
+    padding: 0px;
+    min-width: 0px;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-display-name {
+    flex: 3;
+}
+
+.file-display-size {
+    flex: 1;
+}
+
+.file-display-type {
+    flex: 2;
+}
+
+.file-display-owner {
+    flex: 1;
+}
+
+.file-display-group {
+    flex: 1;
+}
+
+.file-display-permissions {
+    flex: 1;
+}
+
+.file-display-location {
+    flex: 1;
+}
+
+.file-display-modified {
+    flex: 2;
+}
+
+.file-display-accessed {
+    flex: 1;
+}
+
+.file-display-created {
+    flex: 1;
+}

@@ -16,5 +16,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     getSeparator: () => ipcRenderer.invoke("fs:getSeparator"),
 
     isInitialized: () => ipcRenderer.invoke("app:isInitialized"),
+
+    getFileDisplayHeaderColumns: () => ipcRenderer.invoke("app:getFileDisplayHeaderColumns"),
+    setFileDisplayHeaderColumns: (columns: string[]) => ipcRenderer.invoke("app:setFileDisplayHeaderColumns", columns),
 })
 

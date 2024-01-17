@@ -1,3 +1,5 @@
+@import url("./file-display.css");
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif;
@@ -24,32 +26,15 @@ body {
 #file-display-container {
   display: flex;
   flex-direction: row;
-  flex-grow: 1;
 }
 
 #favorites-bar {
-  width: 200px;
+  flex-basis: 200px;
+  flex-grow: 0;
+  flex-shrink: 0;
   background-color: lightgray;
-  flex: auto;
   margin: 0px;
   padding: 0px;
-}
-
-#file-display {
-  width: calc(100vw - 200px);
-  margin: 0px;
-  padding: 0px;
-}
-
-.favorites-folder-list-item, .file-display-list-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  user-select: none;
-}
-
-.file-display-list-item:nth-child(odd) {
-  background-color: rgb(240, 240, 240);
 }
 
 ul {
@@ -59,10 +44,7 @@ ul {
 object[data$=".svg"] {
   width: 1.5rem;
   height: 1.5rem;
-  margin-left: 0.5rem;
   margin-right: 0.5rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
 }
 
 object[data$="folder.svg"] {
@@ -71,12 +53,4 @@ object[data$="folder.svg"] {
 
 object[data$="generic_file.svg"] {
   filter: grayscale(100%) brightness(400%);
-}
-
-li:first-child > object[data$=".svg"] {
-  margin-top: 0.5rem;
-}
-
-li:last-child > object[data$=".svg"] {
-  margin-bottom: 0.5rem;
 }

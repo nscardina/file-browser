@@ -10,7 +10,7 @@ function getDetailsAboutFilesIn(_: IpcMainInvokeEvent, fPath: string): FileSyste
   fs.readdirSync(fPath).forEach(filePath => {
     const stat = fs.statSync(path.resolve(fPath, filePath));
 
-    const fileSystemObjectDetails = {
+    const fileSystemObjectDetails: FileSystemObjectDetails = {
       name: path.basename(filePath),
       size: stat.size,
       type: stat.isBlockDevice() ? "Block Device" :
@@ -25,9 +25,9 @@ function getDetailsAboutFilesIn(_: IpcMainInvokeEvent, fPath: string): FileSyste
       group: getGroupOwner(path.resolve(fPath, filePath)),
       permissions: getFilePermissions(path.resolve(fPath, filePath)),
       location: path.resolve(fPath, filePath),
-      modified: stat.mtimeMs,
-      accessed: stat.atimeMs,
-      created: stat.ctimeMs,
+      dateModified: stat.mtimeMs,
+      dateAccessed: stat.atimeMs,
+      dateCreated: stat.ctimeMs,
     };
 
     fileSystemObjects.push(fileSystemObjectDetails);

@@ -7,6 +7,7 @@ let storeInitialized = false
 type StoreDataType = {
   favorites: string[],
   initialLoadFolder: string,
+  visibleColumns: ("name" | "size" | "type" | "owner" | "group" | "permissions" | "location" | "modified" | "accessed" | "created")[]
 }
 
 let _store: Store<StoreDataType> | null = null
@@ -27,6 +28,10 @@ function initializeStore() {
 
   if (_store.get("initialLoadFolder") === undefined) {
     _store.set("initialLoadFolder", os.homedir())
+  }
+
+  if (_store.get("visibleColumns") === undefined) {
+    _store.set("visibleColumns", ["name", "size", "type", "modified"])
   }
 
   _currentlySelectedFolder = _store.get("initialLoadFolder")

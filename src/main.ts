@@ -3,6 +3,8 @@ import path from 'path';
 import { AppIPC } from "./main_thread/AppIPCOperations";
 import { FilesystemIPC } from "./main_thread/FilesystemIPCOperations";
 
+app.commandLine.appendSwitch("enable-features", "OverlayScrollbar")
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -14,11 +16,14 @@ const createWindow = () => {
 
   ipcMain.handle("fs:getDetailsAboutFilesIn", FilesystemIPC.getDetailsAboutFilesIn)
   ipcMain.handle("fs:getSeparator", FilesystemIPC.getSeparator)
+  
   ipcMain.handle("app:getCurrentlySelectedFolder", AppIPC.getCurrentlySelectedFolder)
   ipcMain.handle("app:setCurrentlySelectedFolder", AppIPC.setCurrentlySelectedFolder)
   ipcMain.handle("app:addFavoriteFolder", AppIPC.addFavoriteFolder)
   ipcMain.handle("app:removeFavoriteFolder", AppIPC.removeFavoriteFolder)
   ipcMain.handle("app:getFavoriteFolders", AppIPC.getFavoriteFolders)
+  ipcMain.handle("app:getFileDisplayHeaderColumns", AppIPC.getFileDisplayHeaderColumns)
+  ipcMain.handle("app:setFileDisplayHeaderColumns", AppIPC.setFileDisplayHeaderColumns)
   
 
   // Create the browser window.

@@ -17,3 +17,12 @@ export type FilePermissions = {
     write: boolean
     execute: boolean
 }
+
+export const NonFileFileTypes = [
+    "Block Device",
+    "Character Device",
+    "Directory", 
+    "FIFO special file",
+    "Socket",
+    "Symbolic Link",
+]

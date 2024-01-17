@@ -28,10 +28,20 @@ function getFavoriteFolders(): string[] {
   return store().get("favorites");
 }
 
+function getFileDisplayHeaderColumns(): string[] {
+  return store().get("visibleColumns")
+}
+
+function setFileDisplayHeaderColumns(_: IpcMainInvokeEvent, columns: string[]): void {
+  store().set("visibleColumns", columns)
+}
+
 export const AppIPC = {
   getCurrentlySelectedFolder,
   setCurrentlySelectedFolder,
   addFavoriteFolder,
   removeFavoriteFolder,
   getFavoriteFolders,
+  getFileDisplayHeaderColumns,
+  setFileDisplayHeaderColumns,
 }
