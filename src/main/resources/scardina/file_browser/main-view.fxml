@@ -4,11 +4,37 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Button?>
+<HBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="scardina.file_browser.FileBrowserMainController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label>Test</Label>
-</VBox>
+    <VBox>
+        <Label>Favorites</Label>
+        <ListView fx:id="favoritesListView"/>
+        <Label>Pinned Folders</Label>
+        <ListView fx:id="pinnedFoldersListView" />
+    </VBox>
+
+    <VBox>
+        <HBox>
+            <Button>
+                Back
+            </Button>
+            <Button>
+                Front
+            </Button>
+            <Label>
+                File Path
+            </Label>
+            <Button>
+                Settings
+            </Button>
+        </HBox>
+        <HBox fx:id="fileViewingArea" />
+    </VBox>
+</HBox>
